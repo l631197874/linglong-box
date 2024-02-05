@@ -13,6 +13,7 @@
 #include "util/debug/debug.h"
 #include "util/filesystem.h"
 #include "util/logger.h"
+#include "util/oci_runtime.h"
 #include "util/platform.h"
 #include "util/semaphore.h"
 
@@ -832,6 +833,12 @@ int Container::Start(const Option &option)
 
     if (option.rootless) {
         flags |= CLONE_NEWUSER;
+    } else {
+        // Process process;
+        // process.args.push_back("/usr/bin/xhost");
+        // process.args.push_back("+local:root");
+        // util::Exec(process.args, {});
+        system("/usr/bin/xhost +local:root");
     }
 
     StartDbusProxy(contanerPrivate.runtime);
